@@ -83,7 +83,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="tab-content">
-                    <div class="tab-pane"
+                    <div class="tab-pane fade show"
                          ng-show="!$ctrl.parsedOptions.hideMinutesTab"
                          ng-class="{'active': $ctrl.activeTab === 'minutes'}">
                         <div class="form-row">
@@ -119,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane"
+                    <div class="tab-pane fade show"
                          ng-show="!$ctrl.parsedOptions.hideHourlyTab"
                          ng-class="{'active': $ctrl.activeTab === 'hourly'}">
                         <div class="form-row">
@@ -165,7 +165,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane"
+                    <div class="tab-pane fade show"
                          ng-show="!$ctrl.parsedOptions.hideDailyTab"
                          ng-class="{'active': $ctrl.activeTab === 'daily'}">
                         <div class="form-row">
@@ -197,7 +197,7 @@
                                 day(s) at
                             </div>
                             <div class="col-auto">
-                                <cron-gen-time-select
+                                <cron-gen-time-select class="form-row"
                                         is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
                                         on-change="$ctrl.regenerateCron()"
                                         name-prefix="dailyEveryDays"
@@ -222,21 +222,19 @@
                             <div class="col-auto">
                                 Every week day (Monday through Friday) at
                             </div>
-                            <div class="col-auto">
-                                <cron-gen-time-select
-                                        is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyWeekDay'"
-                                        on-change="$ctrl.regenerateCron()"
-                                        name-prefix="dailyEveryWeekDay"
-                                        is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyWeekDay'"
-                                        model="$ctrl.state.daily.everyWeekDay"
-                                        select-class="$ctrl.parsedOptions.formSelectClass"
-                                        use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                        hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                                </cron-gen-time-select>
-                            </div>
+                            <cron-gen-time-select class="form-row"
+                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyWeekDay'"
+                                    on-change="$ctrl.regenerateCron()"
+                                    name-prefix="dailyEveryWeekDay"
+                                    is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyWeekDay'"
+                                    model="$ctrl.state.daily.everyWeekDay"
+                                    select-class="$ctrl.parsedOptions.formSelectClass"
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                            </cron-gen-time-select>
                         </div>
                     </div>
-                    <div class="tab-pane"
+                    <div class="tab-pane fade show"
                          ng-show="!$ctrl.parsedOptions.hideWeeklyTab"
                          ng-class="{'active': $ctrl.activeTab === 'weekly'}">
                         <div class="form-row">
@@ -305,7 +303,7 @@
                             </div>
                         </div>
                         Start time
-                        <cron-gen-time-select
+                        <cron-gen-time-select class="form-row"
                                 is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
                                 on-change="$ctrl.regenerateCron()"
                                 name-prefix="weekly"
@@ -316,7 +314,7 @@
                                 hide-seconds="$ctrl.parsedOptions.hideSeconds">
                         </cron-gen-time-select>
                     </div>
-                    <div class="tab-pane"
+                    <div class="tab-pane fade show"
                          ng-show="!$ctrl.parsedOptions.hideMonthlyTab"
                          ng-class="{'active': $ctrl.activeTab === 'monthly'}">
                         <div class="form-row">
@@ -361,18 +359,16 @@
                             <div class="col-auto">
                                 month(s) at
                             </div>
-                            <div class="col-auto">
-                                <cron-gen-time-select
-                                        is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
-                                        on-change="$ctrl.regenerateCron()"
-                                        name-prefix="monthlySpecificDay"
-                                        is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
-                                        model="$ctrl.state.monthly.specificDay"
-                                        select-class="$ctrl.parsedOptions.formSelectClass"
-                                        use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                        hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                                </cron-gen-time-select>
-                            </div>
+                            <cron-gen-time-select class="form-row"
+                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
+                                    on-change="$ctrl.regenerateCron()"
+                                    name-prefix="monthlySpecificDay"
+                                    is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
+                                    model="$ctrl.state.monthly.specificDay"
+                                    select-class="$ctrl.parsedOptions.formSelectClass"
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                            </cron-gen-time-select>
                         </div>
                         <div class="form-row">
                             <div class="col-auto">
@@ -426,21 +422,19 @@
                             <div class="col-auto">
                                 month(s) at
                             </div>
-                            <div class="col-auto">
-                                <cron-gen-time-select
-                                        is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
-                                        on-change="$ctrl.regenerateCron()"
-                                        name-prefix="monthlySpecificWeekDay"
-                                        is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
-                                        model="$ctrl.state.monthly.specificWeekDay"
-                                        select-class="$ctrl.parsedOptions.formSelectClass"
-                                        use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                        hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                                </cron-gen-time-select>
-                            </div>
+                            <cron-gen-time-select class="form-row"
+                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
+                                    on-change="$ctrl.regenerateCron()"
+                                    name-prefix="monthlySpecificWeekDay"
+                                    is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
+                                    model="$ctrl.state.monthly.specificWeekDay"
+                                    select-class="$ctrl.parsedOptions.formSelectClass"
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                            </cron-gen-time-select>
                         </div>
                     </div>
-                    <div class="tab-pane"
+                    <div class="tab-pane fade show"
                          ng-show="!$ctrl.parsedOptions.hideYearlyTab"
                          ng-class="{'active': $ctrl.activeTab === 'yearly'}">
                         <div class="form-row">
@@ -484,18 +478,16 @@
                             <div class="col-auto">
                                 at
                             </div>
-                            <div class="col-auto">
-                                <cron-gen-time-select
-                                        is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
-                                        on-change="$ctrl.regenerateCron()"
-                                        is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
-                                        name-prefix="yearlySpecificMonthDay"
-                                        model="$ctrl.state.yearly.specificMonthDay"
-                                        select-class="$ctrl.parsedOptions.formSelectClass"
-                                        use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                        hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                                </cron-gen-time-select>
-                            </div>
+                            <cron-gen-time-select class="form-row"
+                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
+                                    on-change="$ctrl.regenerateCron()"
+                                    is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
+                                    name-prefix="yearlySpecificMonthDay"
+                                    model="$ctrl.state.yearly.specificMonthDay"
+                                    select-class="$ctrl.parsedOptions.formSelectClass"
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                            </cron-gen-time-select>
                         </div>
                         <div class="form-row">
                             <div class="col-auto">
@@ -549,21 +541,19 @@
                             <div class="col-auto">
                                 at
                             </div>
-                            <div class="col-auto">
-                                <cron-gen-time-select
-                                        is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
-                                        on-change="$ctrl.regenerateCron()"
-                                        name-prefix="yearlySpecificMonthWeek"
-                                        is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
-                                        model="$ctrl.state.yearly.specificMonthWeek"
-                                        select-class="$ctrl.parsedOptions.formSelectClass"
-                                        use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                        hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                                </cron-gen-time-select>
-                            </div>
+                            <cron-gen-time-select class="form-row"
+                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
+                                    on-change="$ctrl.regenerateCron()"
+                                    name-prefix="yearlySpecificMonthWeek"
+                                    is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
+                                    model="$ctrl.state.yearly.specificMonthWeek"
+                                    select-class="$ctrl.parsedOptions.formSelectClass"
+                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                            </cron-gen-time-select>
                         </div>
                     </div>
-                    <div class="tab-pane"
+                    <div class="tab-pane fade show"
                          ng-show="!$ctrl.parsedOptions.hideAdvancedTab"
                          ng-class="{'active': $ctrl.activeTab === 'advanced'}">
                         Cron Expression

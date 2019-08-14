@@ -1,4 +1,4 @@
-<div class="inline-block">
+<div class="col-auto">
     <select class="hours"
             name="{{namePrefix}}Hours"
             ng-disabled="$ctrl.isDisabled"
@@ -6,8 +6,9 @@
             ng-required="$ctrl.isRequired"
             ng-model="$ctrl.model.hours"
             ng-options="hour as $ctrl.cronGenService.padNumber(hour) for hour in $ctrl.selectOptions.hours"
-            ng-class="$ctrl.selectClass">
-    </select>
+            ng-class="$ctrl.selectClass"></select>
+</div>
+<div class="col-auto">
     <select class="minutes"
             name="{{namePrefix}}Minutes"
             ng-disabled="$ctrl.isDisabled"
@@ -15,8 +16,9 @@
             ng-required="$ctrl.isRequired"
             ng-model="$ctrl.model.minutes"
             ng-options="minute as $ctrl.cronGenService.padNumber(minute) for minute in $ctrl.selectOptions.minutes"
-            ng-class="$ctrl.selectClass">
-    </select>
+            ng-class="$ctrl.selectClass"></select>
+</div>
+<div class="col-auto">
     <select class="seconds"
             name="{{namePrefix}}Seconds"
             ng-show="!$ctrl.hideSeconds"
@@ -25,8 +27,9 @@
             ng-required="$ctrl.isRequired"
             ng-model="$ctrl.model.seconds"
             ng-options="second as $ctrl.cronGenService.padNumber(second) for second in $ctrl.selectOptions.seconds"
-            ng-class="$ctrl.selectClass">
-    </select>
+            ng-class="$ctrl.selectClass"></select>
+</div>
+<div class="col-auto">
     <select class="hour-types"
             name="{{namePrefix}}HourType"
             ng-show="!$ctrl.use24HourTime"
@@ -35,6 +38,5 @@
             ng-model="$ctrl.model.hourType"
             ng-options="hourType as hourType for hourType in $ctrl.selectOptions.hourTypes"
             ng-required="$ctrl.isRequired"
-            ng-class="$ctrl.selectClass">
-    </select>
+            ng-class="$ctrl.selectClass"></select>
 </div>

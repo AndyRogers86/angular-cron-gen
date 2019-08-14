@@ -263,7 +263,7 @@ var CronGenComponent = function () {
                     }
                 },
                 advanced: {
-                    expression: null
+                    expression: '0 15 10 L-2 * ?'
                 }
             }
         });
@@ -362,8 +362,8 @@ var CronGenComponent = function () {
             return angular.extend({
                 formInputClass: 'form-control cron-gen-input',
                 formSelectClass: 'form-control cron-gen-select',
-                formRadioClass: 'form-control-static cron-gen-radio',
-                formCheckboxClass: 'form-control-static cron-gen-checkbox',
+                formRadioClass: 'cron-gen-radio',
+                formCheckboxClass: 'cron-gen-checkbox',
                 hideMinutesTab: false,
                 hideHourlyTab: false,
                 hideDailyTab: false,
@@ -441,8 +441,6 @@ var CronGenComponent = function () {
         key: 'handleModelChange',
         value: function handleModelChange(cron) {
             var _this4 = this;
-
-            this.state.advanced.expression = cron;
 
             if (this.currentState === States.DIRTY) {
                 this.currentState = States.CLEAN;
@@ -627,15 +625,15 @@ var CronGenService = function () {
         key: 'selectOptions',
         value: function selectOptions() {
             return {
-                months: this.range(1, 12),
+                months: this.range(1, 13),
                 monthWeeks: ['#1', '#2', '#3', '#4', '#5', 'L'],
                 days: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
                 minutes: this.range(1, 60),
                 fullMinutes: this.range(60),
                 seconds: this.range(60),
-                hours: this.range(1, 23),
-                monthDays: this.range(1, 31),
-                monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(28))).map(function (val, idx) {
+                hours: this.range(1, 24),
+                monthDays: this.range(1, 32),
+                monthDaysWithLasts: ['1W'].concat(toConsumableArray([].concat(toConsumableArray(new Array(31))).map(function (val, idx) {
                     return '' + (idx + 1);
                 })), ['LW', 'L'])
             };
@@ -659,7 +657,7 @@ var CronGenTimeSelect = function CronGenTimeSelect($scope, cronGenService) {
     };
 
     $scope.$watch('$ctrl.use24HourTime', function () {
-        _this.selectOptions.hours = _this.use24HourTime ? _this.cronGenService.range(24) : _this.cronGenService.range(12);
+        _this.selectOptions.hours = _this.use24HourTime ? _this.cronGenService.range(24) : _this.cronGenService.range(1, 13);
     });
 };
 CronGenTimeSelect.$inject = ["$scope", "cronGenService"];
