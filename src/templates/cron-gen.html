@@ -36,7 +36,7 @@
         </li>
         <li ng-show="!$ctrl.parsedOptions.hideWeeklyTab"
             ng-class="{'nav-item active': $ctrl.activeTab === 'weekly', 'nav-item disabled': $ctrl.ngDisabled}">
-            <a href="#" 
+            <a href="#"
                class="nav-link"
                aria-controls="weekly"
                role="tab"
@@ -80,497 +80,483 @@
         </li>
     </ul>
     <div class="cron-gen-container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="tab-content">
-                    <div class="tab-pane fade show"
-                         ng-show="!$ctrl.parsedOptions.hideMinutesTab"
-                         ng-class="{'active': $ctrl.activeTab === 'minutes'}">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                Every
-                            </div>
-                            <div class="col-auto">
-                                <select class="minutes"
-                                        name="minutesMinutes"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'minutes'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.minutes.minutes"
-                                        ng-required="$ctrl.activeTab === 'minutes'"
-                                        ng-options="minute as minute for minute in $ctrl.selectOptions.minutes"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass"></select>
-                            </div>
-                            <div class="col-auto">
-                                minute(s)
-                            </div>
-                            <div class="col-auto">
-                                <span ng-show="!$ctrl.parsedOptions.hideSeconds">on second</span>
-                            </div>
-                            <div class="col-auto">
-                                <select class="seconds"
-                                        name="minutesSeconds"
-                                        ng-show="!$ctrl.parsedOptions.hideSeconds"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'minutes'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.minutes.seconds"
-                                        ng-required="$ctrl.activeTab === 'minutes'"
-                                        ng-options="second as $ctrl.cronGenService.padNumber(second) for second in $ctrl.selectOptions.seconds"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass"></select>
-                            </div>
-                        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade show"
+                 ng-show="!$ctrl.parsedOptions.hideMinutesTab"
+                 ng-class="{'active': $ctrl.activeTab === 'minutes'}">
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        Every
                     </div>
-                    <div class="tab-pane fade show"
-                         ng-show="!$ctrl.parsedOptions.hideHourlyTab"
-                         ng-class="{'active': $ctrl.activeTab === 'hourly'}">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                Every
-                            </div>
-                            <div class="col-auto">
-                                <select class="hours"
-                                        name="hourlyHours"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.hourly.hours"
-                                        ng-required="$ctrl.activeTab === 'hourly'"
-                                        ng-options="hour as hour for hour in $ctrl.selectOptions.hours"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass"></select>
-                            </div>
-                            <div class="col-auto">
-                                hour(s) on minute
-                            </div>
-                            <div class="col-auto">
-                                <select class="minutes"
-                                        name="hourlyMinutes"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.hourly.minutes"
-                                        ng-required="$ctrl.activeTab === 'hourly'"
-                                        ng-options="minute as $ctrl.cronGenService.padNumber(minute) for minute in $ctrl.selectOptions.fullMinutes"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass"></select>
-                            </div>
-                            <div class="col-auto">
-                                <span ng-show="!$ctrl.parsedOptions.hideSeconds">and second</span>
-                            </div>
-                            <div class="col-auto">
-                                <select class="seconds"
-                                        name="hourlySeconds"
-                                        ng-show="!$ctrl.parsedOptions.hideSeconds"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.hourly.seconds"
-                                        ng-required="$ctrl.activeTab === 'hourly'"
-                                        ng-options="second as $ctrl.cronGenService.padNumber(second) for second in $ctrl.selectOptions.seconds"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass"></select>
-                            </div>
-                        </div>
+                    <div class="col-auto">
+                        <select class="minutes"
+                                name="minutesMinutes"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'minutes'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.minutes.minutes"
+                                ng-required="$ctrl.activeTab === 'minutes'"
+                                ng-options="minute as minute for minute in $ctrl.selectOptions.minutes"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
                     </div>
-                    <div class="tab-pane fade show"
-                         ng-show="!$ctrl.parsedOptions.hideDailyTab"
-                         ng-class="{'active': $ctrl.activeTab === 'daily'}">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <input type="radio"
-                                       value="everyDays"
-                                       name="daily-radio"
-                                       ng-disabled="$ctrl.ngDisabled"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.daily.subTab"
-                                       ng-class="$ctrl.state.formRadioClass"
-                                       checked="checked">
-                            </div>
-                            <div class="col-auto">
-                                Every
-                            </div>
-                            <div class="col-auto">
-                                <select class="days"
-                                        name="dailyEveryDaysDays"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.daily.everyDays.days"
-                                        ng-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyDays'"
-                                        ng-options="monthDay as monthDay for monthDay in $ctrl.selectOptions.monthDays"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                day(s) at
-                            </div>
-                            <div class="col-auto">
-                                <cron-gen-time-select class="form-row"
-                                        is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
-                                        on-change="$ctrl.regenerateCron()"
-                                        name-prefix="dailyEveryDays"
-                                        is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyDays'"
-                                        model="$ctrl.state.daily.everyDays"
-                                        select-class="$ctrl.parsedOptions.formSelectClass"
-                                        use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                        hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                                </cron-gen-time-select>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <input type="radio"
-                                       value="everyWeekDay"
-                                       ng-disabled="$ctrl.ngDisabled"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.daily.subTab"
-                                       ng-class="$ctrl.state.formRadioClass"
-                                       name="daily-radio">
-                            </div>
-                            <div class="col-auto">
-                                Every week day (Monday through Friday) at
-                            </div>
-                            <cron-gen-time-select class="form-row"
-                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyWeekDay'"
-                                    on-change="$ctrl.regenerateCron()"
-                                    name-prefix="dailyEveryWeekDay"
-                                    is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyWeekDay'"
-                                    model="$ctrl.state.daily.everyWeekDay"
-                                    select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                            </cron-gen-time-select>
-                        </div>
+                    <div class="col-auto align-self-center">
+                        minute(s)
                     </div>
-                    <div class="tab-pane fade show"
-                         ng-show="!$ctrl.parsedOptions.hideWeeklyTab"
-                         ng-class="{'active': $ctrl.activeTab === 'weekly'}">
-                        <div class="form-row">
-                            <div class="col-sm-6">
-                                <input type="checkbox"
-                                       name="weeklyMON"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.MON"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Monday
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="checkbox"
-                                       name="weeklyTUE"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.TUE"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Tuesday
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="checkbox"
-                                       name="weeklyWED"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.WED"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Wednesday
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="checkbox"
-                                       name="weeklyTHU"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.THU"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Thursday
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="checkbox"
-                                       name="weeklyFRI"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.FRI"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Friday
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="checkbox"
-                                       name="weeklySAT"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.SAT"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Saturday
-                            </div>
-                            <div class="col-sm-6">
-                                <input type="checkbox"
-                                       name="weeklySUN"
-                                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.weekly.SUN"
-                                       ng-class="$ctrl.parsedOptions.formCheckboxClass">
-                                Sunday
-                            </div>
-                        </div>
-                        Start time
-                        <cron-gen-time-select class="form-row"
-                                is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
-                                on-change="$ctrl.regenerateCron()"
-                                name-prefix="weekly"
-                                is-required="$ctrl.activeTab === 'weekly'"
-                                model="$ctrl.state.weekly"
-                                select-class="$ctrl.parsedOptions.formSelectClass"
-                                use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                        </cron-gen-time-select>
+                    <div class="col-auto">
+                        <span ng-show="!$ctrl.parsedOptions.hideSeconds">on second</span>
                     </div>
-                    <div class="tab-pane fade show"
-                         ng-show="!$ctrl.parsedOptions.hideMonthlyTab"
-                         ng-class="{'active': $ctrl.activeTab === 'monthly'}">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <input type="radio"
-                                       value="specificDay"
-                                       ng-disabled="$ctrl.ngDisabled"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.monthly.subTab"
-                                       ng-class="$ctrl.state.formRadioClass"
-                                       name="monthly-radio"
-                                       checked="checked">
-                            </div>
-                            <div class="col-auto">
-                                On the
-                            </div>
-                            <div class="col-auto">
-                                <select class="month-days"
-                                        name="monthlySpecificDayDay"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.monthly.specificDay.day"
-                                        ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
-                                        ng-options="monthDaysWithLast as $ctrl.monthDayDisplay(monthDaysWithLast) for monthDaysWithLast in $ctrl.selectOptions.monthDaysWithLasts"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                of every
-                            </div>
-                            <div class="col-auto">
-                                <select class="months-small"
-                                        name="monthlySpecificDayMonths"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.monthly.specificDay.months"
-                                        ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
-                                        ng-options="month as month for month in $ctrl.selectOptions.months"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                month(s) at
-                            </div>
-                            <cron-gen-time-select class="form-row"
-                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
-                                    on-change="$ctrl.regenerateCron()"
-                                    name-prefix="monthlySpecificDay"
-                                    is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
-                                    model="$ctrl.state.monthly.specificDay"
-                                    select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                            </cron-gen-time-select>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <input type="radio"
-                                       value="specificWeekDay"
-                                       ng-disabled="$ctrl.ngDisabled"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.monthly.subTab"
-                                       ng-class="$ctrl.state.formRadioClass"
-                                       name="monthly-radio">
-                            </div>
-                            <div class="col-auto">
-                                On the
-                            </div>
-                            <div class="col-auto">
-                                <select class="day-order-in-month"
-                                        name="monthlySpecificWeekDayMonthWeek"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.monthly.specificWeekDay.monthWeek"
-                                        ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
-                                        ng-options="monthWeek as $ctrl.monthWeekDisplay(monthWeek) for monthWeek in $ctrl.selectOptions.monthWeeks"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                <select class="week-days"
-                                        name="monthlySpecificWeekDayDay"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.monthly.specificWeekDay.day"
-                                        ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
-                                        ng-options="day as $ctrl.dayDisplay(day) for day in $ctrl.selectOptions.days"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                of every
-                            </div>
-                            <div class="col-auto">
-                                <select class="months-small"
-                                        name="monthlySpecificWeekDayMonths"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.monthly.specificWeekDay.months"
-                                        ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
-                                        ng-options="month as month for month in $ctrl.selectOptions.months"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                month(s) at
-                            </div>
-                            <cron-gen-time-select class="form-row"
-                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
-                                    on-change="$ctrl.regenerateCron()"
-                                    name-prefix="monthlySpecificWeekDay"
-                                    is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
-                                    model="$ctrl.state.monthly.specificWeekDay"
-                                    select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                            </cron-gen-time-select>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade show"
-                         ng-show="!$ctrl.parsedOptions.hideYearlyTab"
-                         ng-class="{'active': $ctrl.activeTab === 'yearly'}">
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <input type="radio"
-                                       value="specificMonthDay"
-                                       ng-disabled="$ctrl.ngDisabled"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.yearly.subTab"
-                                       ng-class="$ctrl.state.formRadioClass"
-                                       name="yearly-radio">
-                            </div>
-                            <div class="col-auto">
-                                Every
-                            </div>
-                            <div class="col-auto">
-                                <select class="months"
-                                        name="yearlySpecificMonthDayMonth"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.yearly.specificMonthDay.month"
-                                        ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
-                                        ng-options="month as $ctrl.monthDisplay(month) for month in $ctrl.selectOptions.months"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                on the
-                            </div>
-                            <div class="col-auto">
-                                <select class="month-days"
-                                        name="yearlySpecificMonthDayDay"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.yearly.specificMonthDay.day"
-                                        ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
-                                        ng-options="monthDaysWithLast as $ctrl.monthDayDisplay(monthDaysWithLast) for monthDaysWithLast in $ctrl.selectOptions.monthDaysWithLasts"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                at
-                            </div>
-                            <cron-gen-time-select class="form-row"
-                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
-                                    on-change="$ctrl.regenerateCron()"
-                                    is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
-                                    name-prefix="yearlySpecificMonthDay"
-                                    model="$ctrl.state.yearly.specificMonthDay"
-                                    select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                            </cron-gen-time-select>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-auto">
-                                <input type="radio"
-                                       value="specificMonthWeek"
-                                       ng-disabled="$ctrl.ngDisabled"
-                                       ng-change="$ctrl.regenerateCron()"
-                                       ng-model="$ctrl.state.yearly.subTab"
-                                       ng-class="$ctrl.state.formRadioClass"
-                                       name="yearly-radio">
-                            </div>
-                            <div class="col-auto">
-                                On the
-                            </div>
-                            <div class="col-auto">
-                                <select class="day-order-in-month"
-                                        name="yearlySpecificMonthWeekMonthWeek"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.yearly.specificMonthWeek.monthWeek"
-                                        ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
-                                        ng-options="monthWeek as $ctrl.monthWeekDisplay(monthWeek) for monthWeek in $ctrl.selectOptions.monthWeeks"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                <select class="week-days"
-                                        name="yearlySpecificMonthWeekMonthDay"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.yearly.specificMonthWeek.day"
-                                        ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
-                                        ng-options="day as $ctrl.dayDisplay(day) for day in $ctrl.selectOptions.days"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                of
-                            </div>
-                            <div class="col-auto">
-                                <select class="months"
-                                        name="yearlySpecificMonthWeekMontMonth"
-                                        ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
-                                        ng-change="$ctrl.regenerateCron()"
-                                        ng-model="$ctrl.state.yearly.specificMonthWeek.month"
-                                        ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
-                                        ng-options="month as $ctrl.monthDisplay(month) for month in $ctrl.selectOptions.months"
-                                        ng-class="$ctrl.parsedOptions.formSelectClass">
-                                </select>
-                            </div>
-                            <div class="col-auto">
-                                at
-                            </div>
-                            <cron-gen-time-select class="form-row"
-                                    is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
-                                    on-change="$ctrl.regenerateCron()"
-                                    name-prefix="yearlySpecificMonthWeek"
-                                    is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
-                                    model="$ctrl.state.yearly.specificMonthWeek"
-                                    select-class="$ctrl.parsedOptions.formSelectClass"
-                                    use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
-                                    hide-seconds="$ctrl.parsedOptions.hideSeconds">
-                            </cron-gen-time-select>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade show"
-                         ng-show="!$ctrl.parsedOptions.hideAdvancedTab"
-                         ng-class="{'active': $ctrl.activeTab === 'advanced'}">
-                        Cron Expression
-                        <input type="text"
-                               class="advanced-cron-gen-input"
-                               name="advancedExpression"
-                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'advanced'"
-                               ng-change="$ctrl.regenerateCron()"
-                               ng-model="$ctrl.state.advanced.expression"
-                               ng-required="$ctrl.activeTab === 'advanced'"
-                               ng-class="$ctrl.parsedOptions.formInputClass">
-
-                        <p>More details about how to create these expressions can be found <a
-                                href="http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html"
-                                target="_blank">here</a>.</p>
+                    <div class="col-auto">
+                        <select class="seconds"
+                                name="minutesSeconds"
+                                ng-show="!$ctrl.parsedOptions.hideSeconds"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'minutes'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.minutes.seconds"
+                                ng-required="$ctrl.activeTab === 'minutes'"
+                                ng-options="second as $ctrl.cronGenService.padNumber(second) for second in $ctrl.selectOptions.seconds"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
                     </div>
                 </div>
+            </div>
+            <div class="tab-pane fade show"
+                 ng-show="!$ctrl.parsedOptions.hideHourlyTab"
+                 ng-class="{'active': $ctrl.activeTab === 'hourly'}">
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        Every
+                    </div>
+                    <div class="col-auto">
+                        <select class="hours"
+                                name="hourlyHours"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.hourly.hours"
+                                ng-required="$ctrl.activeTab === 'hourly'"
+                                ng-options="hour as hour for hour in $ctrl.selectOptions.hours"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        hour(s) on minute
+                    </div>
+                    <div class="col-auto">
+                        <select class="minutes"
+                                name="hourlyMinutes"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.hourly.minutes"
+                                ng-required="$ctrl.activeTab === 'hourly'"
+                                ng-options="minute as $ctrl.cronGenService.padNumber(minute) for minute in $ctrl.selectOptions.fullMinutes"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        <span ng-show="!$ctrl.parsedOptions.hideSeconds">and second</span>
+                    </div>
+                    <div class="col-auto">
+                        <select class="seconds"
+                                name="hourlySeconds"
+                                ng-show="!$ctrl.parsedOptions.hideSeconds"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'hourly'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.hourly.seconds"
+                                ng-required="$ctrl.activeTab === 'hourly'"
+                                ng-options="second as $ctrl.cronGenService.padNumber(second) for second in $ctrl.selectOptions.seconds"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade show"
+                 ng-show="!$ctrl.parsedOptions.hideDailyTab"
+                 ng-class="{'active': $ctrl.activeTab === 'daily'}">
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        <input type="radio"
+                               value="everyDays"
+                               name="daily-radio"
+                               ng-disabled="$ctrl.ngDisabled"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.daily.subTab"
+                               ng-class="$ctrl.state.formRadioClass"
+                               checked="checked">
+                    </div>
+                    <div class="col-auto align-self-center">
+                        Every
+                    </div>
+                    <div class="col-auto">
+                        <select class="days"
+                                name="dailyEveryDaysDays"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.daily.everyDays.days"
+                                ng-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyDays'"
+                                ng-options="monthDay as monthDay for monthDay in $ctrl.selectOptions.monthDays"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        day(s) at
+                    </div>
+                    <div class="col-auto">
+                        <cron-gen-time-select class="form-row"
+                                              is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyDays'"
+                                              on-change="$ctrl.regenerateCron()"
+                                              name-prefix="dailyEveryDays"
+                                              is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyDays'"
+                                              model="$ctrl.state.daily.everyDays"
+                                              select-class="$ctrl.parsedOptions.formSelectClass"
+                                              use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                              hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                        </cron-gen-time-select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        <input type="radio"
+                               value="everyWeekDay"
+                               ng-disabled="$ctrl.ngDisabled"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.daily.subTab"
+                               ng-class="$ctrl.state.formRadioClass"
+                               name="daily-radio">
+                    </div>
+                    <div class="col-auto align-self-center">
+                        Every week day (Monday through Friday) at
+                    </div>
+                    <cron-gen-time-select class="form-row"
+                                          is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'daily' || $ctrl.state.daily.subTab !== 'everyWeekDay'"
+                                          on-change="$ctrl.regenerateCron()"
+                                          name-prefix="dailyEveryWeekDay"
+                                          is-required="$ctrl.activeTab === 'daily' && $ctrl.state.daily.subTab === 'everyWeekDay'"
+                                          model="$ctrl.state.daily.everyWeekDay"
+                                          select-class="$ctrl.parsedOptions.formSelectClass"
+                                          use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                          hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                    </cron-gen-time-select>
+                </div>
+            </div>
+            <div class="tab-pane fade show"
+                 ng-show="!$ctrl.parsedOptions.hideWeeklyTab"
+                 ng-class="{'active': $ctrl.activeTab === 'weekly'}">
+                <div class="form-row">
+                    <div class="col-sm-6">
+                        <input type="checkbox"
+                               name="weeklyMON"
+                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.weekly.MON"
+                               ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                        Monday
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="checkbox"
+                               name="weeklyTUE"
+                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.weekly.TUE"
+                               ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                        Tuesday
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="checkbox"
+                               name="weeklyWED"
+                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.weekly.WED"
+                               ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                        Wednesday
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="checkbox"
+                               name="weeklyTHU"
+                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.weekly.THU"
+                               ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                        Thursday
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="checkbox"
+                               name="weeklyFRI"
+                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.weekly.FRI"
+                               ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                        Friday
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="checkbox"
+                               name="weeklySAT"
+                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.weekly.SAT"
+                               ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                        Saturday
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="checkbox"
+                               name="weeklySUN"
+                               ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.weekly.SUN"
+                               ng-class="$ctrl.parsedOptions.formCheckboxClass">
+                        Sunday
+                    </div>
+                </div>
+                Start time
+                <cron-gen-time-select class="form-row"
+                                      is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'weekly'"
+                                      on-change="$ctrl.regenerateCron()"
+                                      name-prefix="weekly"
+                                      is-required="$ctrl.activeTab === 'weekly'"
+                                      model="$ctrl.state.weekly"
+                                      select-class="$ctrl.parsedOptions.formSelectClass"
+                                      use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                      hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                </cron-gen-time-select>
+            </div>
+            <div class="tab-pane fade show"
+                 ng-show="!$ctrl.parsedOptions.hideMonthlyTab"
+                 ng-class="{'active': $ctrl.activeTab === 'monthly'}">
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        <input type="radio"
+                               value="specificDay"
+                               ng-disabled="$ctrl.ngDisabled"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.monthly.subTab"
+                               ng-class="$ctrl.state.formRadioClass"
+                               name="monthly-radio"
+                               checked="checked">
+                    </div>
+                    <div class="col-auto align-self-center">
+                        On the
+                    </div>
+                    <div class="col-auto">
+                        <select class="month-days"
+                                name="monthlySpecificDayDay"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.monthly.specificDay.day"
+                                ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
+                                ng-options="monthDaysWithLast as $ctrl.monthDayDisplay(monthDaysWithLast) for monthDaysWithLast in $ctrl.selectOptions.monthDaysWithLasts"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        of every
+                    </div>
+                    <div class="col-auto">
+                        <select class="months-small"
+                                name="monthlySpecificDayMonths"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.monthly.specificDay.months"
+                                ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
+                                ng-options="month as month for month in $ctrl.selectOptions.months"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        month(s) at
+                    </div>
+                    <cron-gen-time-select class="form-row"
+                                          is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificDay'"
+                                          on-change="$ctrl.regenerateCron()"
+                                          name-prefix="monthlySpecificDay"
+                                          is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificDay'"
+                                          model="$ctrl.state.monthly.specificDay"
+                                          select-class="$ctrl.parsedOptions.formSelectClass"
+                                          use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                          hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                    </cron-gen-time-select>
+                </div>
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        <input type="radio"
+                               value="specificWeekDay"
+                               ng-disabled="$ctrl.ngDisabled"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.monthly.subTab"
+                               ng-class="$ctrl.state.formRadioClass"
+                               name="monthly-radio">
+                    </div>
+                    <div class="col-auto align-self-center">
+                        On the
+                    </div>
+                    <div class="col-auto">
+                        <select class="day-order-in-month"
+                                name="monthlySpecificWeekDayMonthWeek"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.monthly.specificWeekDay.monthWeek"
+                                ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
+                                ng-options="monthWeek as $ctrl.monthWeekDisplay(monthWeek) for monthWeek in $ctrl.selectOptions.monthWeeks"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto">
+                        <select class="week-days"
+                                name="monthlySpecificWeekDayDay"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.monthly.specificWeekDay.day"
+                                ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
+                                ng-options="day as $ctrl.dayDisplay(day) for day in $ctrl.selectOptions.days"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        of every
+                    </div>
+                    <div class="col-auto">
+                        <select class="months-small"
+                                name="monthlySpecificWeekDayMonths"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.monthly.specificWeekDay.months"
+                                ng-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
+                                ng-options="month as month for month in $ctrl.selectOptions.months"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        month(s) at
+                    </div>
+                    <cron-gen-time-select class="form-row"
+                                          is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'monthly' || $ctrl.state.monthly.subTab !== 'specificWeekDay'"
+                                          on-change="$ctrl.regenerateCron()"
+                                          name-prefix="monthlySpecificWeekDay"
+                                          is-required="$ctrl.activeTab === 'monthly' && $ctrl.state.monthly.subTab === 'specificWeekDay'"
+                                          model="$ctrl.state.monthly.specificWeekDay"
+                                          select-class="$ctrl.parsedOptions.formSelectClass"
+                                          use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                          hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                    </cron-gen-time-select>
+                </div>
+            </div>
+            <div class="tab-pane fade show"
+                 ng-show="!$ctrl.parsedOptions.hideYearlyTab"
+                 ng-class="{'active': $ctrl.activeTab === 'yearly'}">
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        <input type="radio"
+                               value="specificMonthDay"
+                               ng-disabled="$ctrl.ngDisabled"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.yearly.subTab"
+                               ng-class="$ctrl.state.formRadioClass"
+                               name="yearly-radio">
+                    </div>
+                    <div class="col-auto align-self-center">
+                        Every
+                    </div>
+                    <div class="col-auto">
+                        <select class="months"
+                                name="yearlySpecificMonthDayMonth"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.yearly.specificMonthDay.month"
+                                ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
+                                ng-options="month as $ctrl.monthDisplay(month) for month in $ctrl.selectOptions.months"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        on the
+                    </div>
+                    <div class="col-auto">
+                        <select class="month-days"
+                                name="yearlySpecificMonthDayDay"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.yearly.specificMonthDay.day"
+                                ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
+                                ng-options="monthDaysWithLast as $ctrl.monthDayDisplay(monthDaysWithLast) for monthDaysWithLast in $ctrl.selectOptions.monthDaysWithLasts"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        at
+                    </div>
+                    <cron-gen-time-select class="form-row"
+                                          is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthDay'"
+                                          on-change="$ctrl.regenerateCron()"
+                                          is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthDay'"
+                                          name-prefix="yearlySpecificMonthDay"
+                                          model="$ctrl.state.yearly.specificMonthDay"
+                                          select-class="$ctrl.parsedOptions.formSelectClass"
+                                          use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                          hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                    </cron-gen-time-select>
+                </div>
+                <div class="form-row">
+                    <div class="col-auto align-self-center">
+                        <input type="radio"
+                               value="specificMonthWeek"
+                               ng-disabled="$ctrl.ngDisabled"
+                               ng-change="$ctrl.regenerateCron()"
+                               ng-model="$ctrl.state.yearly.subTab"
+                               ng-class="$ctrl.state.formRadioClass"
+                               name="yearly-radio">
+                    </div>
+                    <div class="col-auto align-self-center">
+                        On the
+                    </div>
+                    <div class="col-auto">
+                        <select class="day-order-in-month"
+                                name="yearlySpecificMonthWeekMonthWeek"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.yearly.specificMonthWeek.monthWeek"
+                                ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
+                                ng-options="monthWeek as $ctrl.monthWeekDisplay(monthWeek) for monthWeek in $ctrl.selectOptions.monthWeeks"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto">
+                        <select class="week-days"
+                                name="yearlySpecificMonthWeekMonthDay"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.yearly.specificMonthWeek.day"
+                                ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
+                                ng-options="day as $ctrl.dayDisplay(day) for day in $ctrl.selectOptions.days"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        of
+                    </div>
+                    <div class="col-auto">
+                        <select class="months"
+                                name="yearlySpecificMonthWeekMontMonth"
+                                ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
+                                ng-change="$ctrl.regenerateCron()"
+                                ng-model="$ctrl.state.yearly.specificMonthWeek.month"
+                                ng-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
+                                ng-options="month as $ctrl.monthDisplay(month) for month in $ctrl.selectOptions.months"
+                                ng-class="$ctrl.parsedOptions.formSelectClass"></select>
+                    </div>
+                    <div class="col-auto align-self-center">
+                        at
+                    </div>
+                    <cron-gen-time-select class="form-row"
+                                          is-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'yearly' || $ctrl.state.yearly.subTab !== 'specificMonthWeek'"
+                                          on-change="$ctrl.regenerateCron()"
+                                          name-prefix="yearlySpecificMonthWeek"
+                                          is-required="$ctrl.activeTab === 'yearly' && $ctrl.state.yearly.subTab === 'specificMonthWeek'"
+                                          model="$ctrl.state.yearly.specificMonthWeek"
+                                          select-class="$ctrl.parsedOptions.formSelectClass"
+                                          use-24-hour-time="$ctrl.parsedOptions.use24HourTime"
+                                          hide-seconds="$ctrl.parsedOptions.hideSeconds">
+                    </cron-gen-time-select>
+                </div>
+            </div>
+            <div class="tab-pane fade show"
+                 ng-show="!$ctrl.parsedOptions.hideAdvancedTab"
+                 ng-class="{'active': $ctrl.activeTab === 'advanced'}">
+                Cron Expression
+                <input type="text"
+                       class="advanced-cron-gen-input"
+                       name="advancedExpression"
+                       ng-disabled="$ctrl.ngDisabled || $ctrl.activeTab !== 'advanced'"
+                       ng-change="$ctrl.regenerateCron()"
+                       ng-model="$ctrl.state.advanced.expression"
+                       ng-required="$ctrl.activeTab === 'advanced'"
+                       ng-class="$ctrl.parsedOptions.formInputClass">
+
+                <p>
+                    More details about how to create these expressions can be found <a href="http://www.quartz-scheduler.org/documentation/quartz-2.3.0/tutorials/crontrigger.html"
+                                                                                       target="_blank">here</a>.
+                </p>
             </div>
         </div>
     </div>
